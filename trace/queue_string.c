@@ -5,7 +5,7 @@
 
 void enqueue(Queue *q,char *p)
 {
-	printf("ready to enqueue string : %s",p);
+	/*printf("ready to enqueue string : %s",p);*/
 	char *c = malloc(strlen(p)+1);
 	if(c == NULL)
 	{
@@ -30,7 +30,7 @@ void enqueue(Queue *q,char *p)
 
 char *dequeue(Queue *q)
 {
-	char *p;
+	char *p = malloc(strlen(q->head->value)+1);
 	if(q->len <= 0)
 		p = NULL;
 	else
@@ -40,10 +40,9 @@ char *dequeue(Queue *q)
 			q->head = q->tail = NULL;
 		else
 		{
-			Node *n = q->head->next;
-			printf("head value:%s,n value:%s",q->head->value,q->head->next->value);
-			free(q->head);
-			q->head = n;
+			Node *n = q->head;
+			q->head = q->head->next;
+			free(n);
 		}
 		q->len--;
 	}
@@ -62,11 +61,14 @@ int main()
 	enqueue(q,"second line!\n");
 	enqueue(q,"third line!\n");
 
-	int k = q->len;
-	printf("queue length:%d\n,%s,%s,%s",k,q->head->value,q->head->next->value,q->head->next->next->value);
+	printf("queue value:%s,%s,%s",q->head->value,q->head->next->value,q->head->next->next->value);
+	char *p = dequeue(q);
+	free(p);
+	printf("queue value:%s,%s",q->head->value,q->head->next->value);
+	/*int k = q->len;
 	for(;k > 0 ;k--)
 	{
 		printf("%s",dequeue(q));
-	}
+	}*/
 	return 1;
 }
